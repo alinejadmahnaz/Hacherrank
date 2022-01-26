@@ -1,0 +1,8 @@
+SELECT  month(record_date) ,MAX(max_val) AS [MAX] , MIN(min_val) AS [MIN]
+, cast(round(AVG(avg_val),0) as int) AS [AVG]
+FROM (
+    select record_date,cast(max(case when data_type='avg' then DATA_VALUE else 0 end) as float) avg_val, max(DATA_VALUE) max_val, min(DATA_VALUE) min_val from TEMPERATURE_RECORDS
+    group by record_date
+) q
+GROUP BY month(record_date)
+ORDER BY 1
