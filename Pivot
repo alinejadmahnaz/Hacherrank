@@ -1,0 +1,14 @@
+SELECT Doctor, Professor, Singer, Actor
+from
+(
+  SELECT Name, Occupation,
+    row_number() over(partition by Occupation order by Name) rn
+  from Occupations
+) as st
+pivot
+(
+  max(Name)
+  FOR Occupation in (Doctor, Professor, Singer, Actor)
+) as pivottable
+  
+
